@@ -15,7 +15,9 @@ struct ContentView: View {
                               GridItem(.flexible()),]
 
     @State private var moves: [Move?] = Array(repeating: nil, count: 9)
-    @State private var isHumanTurn = true
+    @State private var isGameboardDisabled: Bool = false
+//    @State private var isHumanTurn = true
+    
     var body: some View {
         
         //using geometry reader to get approximate size on all screens
@@ -38,13 +40,24 @@ struct ContentView: View {
                         }
                         .onTapGesture{
                             if isSquareOccupied(in: moves, forIndex: i) {return}
-                            moves[i] = Move(player: isHumanTurn ? .human : .computer, boardIndex: i)
-                            isHumanTurn.toggle()
+                            moves[i] = Move(player: .human, boardIndex: i)
+//                            isHumanTurn.toggle()
+                            isGameboardDisabled = true
+                            
+                            //Check for Win condition or draw
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                                let computerPosition = determineComputerMovePosition(in: moves)
+                                
+                                moves[computerPosition] = Move(player: .computer, boardIndex: computerPosition)
+                                isGameboardDisabled = false
+                            }
+                            
                         }
                         
                     }
                     
-                }
+                }.disabled(isGameboardDisabled)
 //                .padding()
                 
                 Spacer()
@@ -68,7 +81,7 @@ struct ContentView: View {
         var movePosition = Int.random(in: 0..<9)
         
         while isSquareOccupied(in: moves, forIndex: movePosition) {
-            var movePosition = Int.random(in: 0..<9)
+            movePosition = Int.random(in: 0..<9)
         }
         return movePosition
     }
