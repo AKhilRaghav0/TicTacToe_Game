@@ -43,18 +43,18 @@ struct ContentView: View {
                             if isSquareOccupied(in: moves, forIndex: i) {return}
                             moves[i] = Move(player: .human, boardIndex: i)
                             //                            isHumanTurn.toggle()
-//                            isGameboardDisabled = true
+                            //                            isGameboardDisabled = true
                             
                             //Check for Win condition or draw
                             if checkWinCondition(for: .human, in: moves){
-//                                print("human wins")
+                                //                                print("human wins")
                                 alertItem = AlertContext.humanWin
                                 return
                             }
                             isGameboardDisabled = true
                             
                             if checkForDraw(in: moves){
-//                                print("draw")
+                                //                                print("draw")
                                 alertItem = AlertContext.draw
                                 return
                             }
@@ -65,7 +65,7 @@ struct ContentView: View {
                                 isGameboardDisabled = false
                                 
                                 if checkWinCondition(for: .computer, in: moves){
-//                                    print("Computer wins")
+                                    //                                    print("Computer wins")
                                     alertItem = AlertContext.computerWin
                                     return
                                 }
@@ -119,7 +119,7 @@ struct ContentView: View {
             
             
             
-//                    return true
+            //                    return true
         }
         func checkForDraw(in moves: [Move?]) -> Bool {
             return moves.compactMap{$0}.count == 9
